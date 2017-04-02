@@ -49,7 +49,10 @@ function addTodoFromTemplate(todo) {
 
 function setCurrentDateTime() {
     var currentDateTime = new Date();
-    var t = currentDateTime.toLocaleTimeString();
+    var hour = currentDateTime.getHours();
+    var minute = currentDateTime.getMinutes();
+    var seconds = currentDateTime.getSeconds();
+    var t = (hour + ':' + minute + ':' + seconds);
     var day = currentDateTime.getDate();
     var month = currentDateTime.getMonth()+1;
     var year = currentDateTime.getFullYear();
