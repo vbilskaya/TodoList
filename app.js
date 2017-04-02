@@ -40,18 +40,21 @@ var todoList = [
 // функция по генерации элементов
 function addTodoFromTemplate(todo) {
     var newElement = templateContainer.querySelector('.task').cloneNode(true);
+    newElement.querySelector('.task__name').textContent = todo.name;
+    newElement.querySelector('.current_DateTime').textContent = setCurrentDateTime();
+    setTodoStatusClassName(newElement, todo.status === 'todo');
+
+    return newElement;
+}
+
+function setCurrentDateTime() {
     var currentDateTime = new Date();
     var t = currentDateTime.toLocaleTimeString();
     var day = currentDateTime.getDate();
     var month = currentDateTime.getMonth()+1;
     var year = currentDateTime.getFullYear();
-    var dateString = (t + "\n" + day + '/' + month + '/' + year);
-    newElement.querySelector('.task__name').textContent = todo.name;
-    newElement.querySelector('.current_DateTime').textContent = dateString.toString();
-
-    setTodoStatusClassName(newElement, todo.status === 'todo');
-
-    return newElement;
+    var dateString = (t + "\n" + day + '/' + month + '/' + year).toString();
+    return dateString;
 }
 
 function setTodoStatusClassName(todo, flag) {
@@ -318,6 +321,7 @@ function insertTodoElement(todo) {
     listElement.insertBefore(elem, listElement.firstElementChild);
     // addToStats(todo.status === 'todo');
 }
+
 // обновим функцию смены статуса тудушки
 // раньше было не важно, по какой тудушке кликнули. теперь надо найти эту тудушку в todoList
 // и изменить ее статус
@@ -328,6 +332,7 @@ function insertTodoElement(todo) {
 function changeTodoStatus(element) {
     // извлекаем имя тудушки и находим через вспомогательную функцию
     var task = getTodo(element.querySelector('.task__name').textContent);
+    element.querySelector('.current_DateTime').textContent = setCurrentDateTime();
     var isTodo = task.status === 'todo';
     // меняем статус в todoList
     task.status = isTodo ? 'done' : 'todo';
